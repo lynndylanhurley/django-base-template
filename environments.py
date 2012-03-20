@@ -14,7 +14,8 @@ def common():
 	env.uwsgi_port = 8000
 	env.use_ssh_config = True
 	env.branch = "master"
-	env.python_path = "~/.virtualenvs/%s" % env.project_name
+	env.python_path = "/home/%s/.virtualenvs/%s" % (env.user, env.project_name)
+	env.debug = False
 
 
 def dev():
@@ -26,3 +27,4 @@ def dev():
 		# use vagrant ssh key
 		result = local('vagrant ssh-config | grep IdentityFile', capture=True)
 		env.key_filename = result.split()[1]
+		env.debug = True

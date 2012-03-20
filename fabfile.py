@@ -24,6 +24,7 @@ def current_project():
 def bootstrap():
 	# make sure we can even do this
 	append("~/.bash_profile", "export WORKON_HOME=$HOME/.virtualenvs")
+	append("~/.bash_profile", "export PYTHONPATH=settings.local")
 	append("~/.bash_profile", "source /usr/local/bin/virtualenvwrapper.sh")
 
 	# make directory skeleton
@@ -41,13 +42,14 @@ def bootstrap():
 	sudo("apt-get update")
 	sudo("apt-get install nginx")
 	sudo("apt-get install postgresql")
-	sudo("apt-get install python-pip python-dev build-essential")
+	sudo("apt-get install python-pip python-dev build-essential libpq-dev python-virtualenv")
 
 	# python deps
-	sudo("pip install -U pip")
-	sudo("pip install -U virtualenv virtualenvwrapper")
+	run("pip install -U pip")
+	run("pip install -U virtualenv virtualenvwrapper")
 
-	sudo("mkvirtualenv --clear --no-site-packages --distribute %s" % env.project_name)
+	set_permissions()
+	run("mkvirtualenv --clear --no-site-packages --distribute %s" % env.project_name)
 
 	init_db()
 	deploy()
@@ -56,14 +58,14 @@ def bootstrap():
 def set_permissions():
 	"""Reset permissions on all related files."""
 	with current_env():
-		sudo("chown -R %s:%s ~/.virtualenvs" % (env.user, env.user))
-		sudo("chown -R %s %s" % (env.user, env.project_root))
+		sudo("chown -R %s:%s /home/%s/.virtualenvs" % (env.user, env.user, env.user))
+		sudo("chown -R %s:%s %s" % (env.user, env.user, env.project_root))
 
 
 def deploy():
 	archive_current()
-	#upload_current()
-	#configure()
+	upload_current()
+	configure()
 	#rebuild_index()
 	#collect_static()
 	#compress_js_and_css()
@@ -92,22 +94,23 @@ def upload_current():
 			run("cp -R current/* %s" % env.release)
 
 		# rsync local tmp archive with previous release copy
-		rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release), local_dir='/tmp/%s/deploy/' % release, delete=True)
+		rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release), local_dir='/tmp/%s/deploy/' % env.release, delete=True)
 
 
 def configure():
+	set_permissions()
 	build_deps()
 	migrate()
-	upload_settings()
+	#upload_settings()
 
 
 def build_deps():
 	with current_project():
-		run('pip install -r requirements.txt')
+		sudo('pip install -r requirements.txt')
 
 
-def migrate(release):
-	with remote_env(release):
+def migrate():
+	with current_project():
 		run( './manage.py syncdb' )
 		run( './manage.py migrate --all --delete-ghost-migrations' )
 
@@ -128,6 +131,7 @@ def upload_settings():
 	upload_template(filename='deploy/conf/nginx.conf', destination='/etc/nginx/sites_available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
 	upload_template(filename='deploy/conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
 	upload_template(filename='deploy/conf/uwsgi.ini', destination='%s/uwsgi.ini' % env.project_root, context=env, backup=False, use_sudo=True)
+	upload_template(filename='deploy/conf/local.py', destination='%s/current/local.py' % env.project_root, context=env, backup=False, use_sudo=False)
 
 	sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
 

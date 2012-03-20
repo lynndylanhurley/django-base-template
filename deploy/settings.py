@@ -18,17 +18,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'root',                      # Or path to database file if using sqlite3.
-        'USER': 'think',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -131,6 +120,7 @@ INSTALLED_APPS = (
 		'south',
 		'django_extensions',
 		'compressor',
+		'sorl.thumbnail',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -161,3 +151,9 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ()
 STATICFILES_FINDERS = global_settings.STATICFILES_FINDERS + (
 		'compressor.finders.CompressorFinder',
 )
+
+# local overrides
+try:
+    from local_settings import *
+except ImportError:
+    pass
