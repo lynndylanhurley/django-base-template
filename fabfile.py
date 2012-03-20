@@ -1,6 +1,6 @@
 from __future__ import with_statement
 from contextlib import contextmanager as _contextmanager
-from fabric.contrib.files import exists, append
+from fabric.contrib.files import exists, append, upload_template
 from fabric.contrib.project import rsync_project
 from fabric.api import *
 from fabric.colors import *
@@ -66,6 +66,7 @@ def deploy():
 	archive_current()
 	upload_current()
 	configure()
+	migrate()
 	#rebuild_index()
 	#collect_static()
 	#compress_js_and_css()
@@ -100,8 +101,7 @@ def upload_current():
 def configure():
 	set_permissions()
 	build_deps()
-	migrate()
-	#upload_settings()
+	upload_settings()
 
 
 def build_deps():
@@ -128,11 +128,19 @@ def init_db():
 
 
 def upload_settings():
-	upload_template(filename='deploy/conf/nginx.conf', destination='/etc/nginx/sites_available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
-	upload_template(filename='deploy/conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
-	upload_template(filename='deploy/conf/uwsgi.ini', destination='%s/uwsgi.ini' % env.project_root, context=env, backup=False, use_sudo=True)
-	upload_template(filename='deploy/conf/local.py', destination='%s/current/local.py' % env.project_root, context=env, backup=False, use_sudo=False)
+	#upload templates
+	upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites_available' % env.project_name, context=env, backup=False, use_sudo=True)
+	upload_template(filename='conf/upstart.conf', destination='/etc/init' % env.project_name, context=env, backup=False, use_sudo=True)
+	upload_template(filename='conf/uwsgi.ini', destination='%s' % env.project_root, context=env, backup=False, use_sudo=True)
+	upload_template(filename='conf/local_settings.py', destination='%s/current' % env.project_root, context=env, backup=False, use_sudo=False)
 
+	#rename files
+	sudo('mv /etc/nginx/sites_available/nginx.conf /etc/nginx/sites_available/%s' % env.project_name)
+	sudo('mv /etc/init/upstart.conf /etc/init/%s.conf' % env.project_name)
+
+	#re-link nginx conf
+	if exists("/etc/nginx/sites-enabled/%s" % env.project_name):
+		sudo("unlink /etc/nginx/sites-enabled/%s" % env.project_name)
 	sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
 
 
