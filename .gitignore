@@ -1,0 +1,6 @@
+*.log
+*.pot
+*.pyc
+local_settings.py
+deploy/static/
+deploy/uploads/

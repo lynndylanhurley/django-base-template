@@ -1,0 +1,12 @@
+distribute
+django-extensions
+wsgiref
+yolk
+path.py
+South
+django-grappelli
+fabric
+django-compressor
+django
+pillow
+psycopg2
