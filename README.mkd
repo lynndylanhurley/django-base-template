@@ -56,7 +56,7 @@ Use vagrant to manage the dev server. Commands include:
 Get the full list of commands by running `vagrant -h`
 
 ### Development Server
-To access django's local dev server, you have two options - you can go thru the pain of setting up your local machine, or you can just use the vm that we've already set up.
+To access django's local dev server, you have two options - you can go thru the pain of setting up your stupid MacBook, or you can just use the vm that we've already set up.
 
 If you choose the latter option, follow these simple instructions:
 
