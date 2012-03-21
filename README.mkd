@@ -45,16 +45,11 @@ This will take awhile (like, awhile). You may be prompted for input during the `
 ## Development
 When the initial setup is finished, you will have a running server at [localhost:8888](http://localhost:8888). Use vagrant to manage the dev server. Commands include:
 
-*   suspend server:
-    `vagrant suspend`
-*   reload server:
-    `vagrant reload`
-*   destroy vm (useful for testing the bootstrap command):
-    `vagrant destroy`
-*   start server:
-    `vagrant up`
-*   shell into dev server:
-    `vagrant ssh`
+*   `vagrant suspend`: suspend server
+*   `vagrant reload`: reload server
+*   `vagrant destroy`: destroy vm (useful for testing the bootstrap command)
+*   `vagrant up`: start server
+*   `vagrant ssh`: shell into dev server
 
 Get the full list of commands by running `vagrant -h`
 
