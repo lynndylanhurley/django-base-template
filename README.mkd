@@ -60,11 +60,10 @@ You should now be able to access the dev server on [localhost:8000](http://local
 
 ## Deployment
 This project uses fabric for deployment + provisioning. Several commands are already included (replace 'xxx' with the name of your env from `environments.py`):
-*   `fab xxx bootstrap`: Set up server
+*   `fab xxx bootstrap`: Install dependencies, deploy initial app
 *   `fab xxx deploy`: Deploy latest git commit to server
 *   `fab xxx rollback`: Roll back to previous deploy
 
 Note:
 *   Do NOT use sudo when running `pip` commands. We're using [pythonbrew](https://github.com/utahta/pythonbrew) just to avoid that mess.
-*   Nginx runs as the user specified in `environments.py`
-*   uWSGI runs as the user specified in `environments.py`
+*   Nginx, uWSGI, and Postgres run as the user specified in `environments.py`
