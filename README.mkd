@@ -44,7 +44,7 @@ This will take awhile (like, awhile). You may be prompted for input during the `
 
 
 ## Development
-When the initial setup is finished, you will have a running server at localhost:8888. Use vagrant to manage the dev server. Commands include:
+When the initial setup is finished, you will have a running server at [localhost:8888](http://localhost:8888). Use vagrant to manage the dev server. Commands include:
 
 *   suspend server:
     `vagrant suspend`
