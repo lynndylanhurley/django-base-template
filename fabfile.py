@@ -94,10 +94,9 @@ def upload_current():
 	with cd( "%s" % env.project_root ):
 		run("mkdir -p releases/%s" % env.release)
 
-		if exists("current"):
-			run("cp -R current/* releases/%s" % env.release)
+		#if exists("current"):
+			#run("cp -R current/* releases/%s" % env.release)
 
-	# rsync local tmp archive with previous release copy
 	rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release), local_dir='/tmp/%s/deploy/' % env.release, delete=True)
 
 
