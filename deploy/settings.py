@@ -9,8 +9,6 @@ sys.path.insert(0, SITE_ROOT)
 sys.path.insert(0, PROJECT_ROOT / 'lib')
 sys.path.insert(0, PROJECT_ROOT / 'apps')
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -70,7 +68,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-		PROJECT_ROOT / 'static'
+		PROJECT_ROOT / 'static',
 )
 
 # List of finder classes that know how to find static files in
@@ -105,10 +103,11 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-		PROJECT_ROOT / 'templates'
+		PROJECT_ROOT / 'templates',
 )
 
 INSTALLED_APPS = (
+		'grappelli',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

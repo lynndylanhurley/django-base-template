@@ -8,6 +8,7 @@ from fabric.api import *
 def common():
 	yield
 	env.project_name = 'project-name'
+	env.project_title = 'Project Title'
 	env.db_name = env.project_name
 	env.project_root = '/home/%s/sites/%s' % (env.user, env.project_name)
 	env.python_path = "/home/%s/.virtualenvs/%s" % (env.user, env.project_name)

@@ -2,7 +2,7 @@ import os, sys
 from settings import *
 
 DEBUG = True
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "uploads")
 
