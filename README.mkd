@@ -1,4 +1,4 @@
-# Django Project Template
+# Django Base Template
 
 ## Goals
 1. Start with a working deploy config.
