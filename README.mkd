@@ -3,24 +3,24 @@
 ## Goals
 1. Start with a working deploy config.
 2. Pre-configure the apps that we use on every project.
-3. Start with useful fabric scripts for managing remote servers.
-4. Develop with the same environment as the production server from any machine.
+3. Provide useful fabric scripts for managing remote servers.
+4. Develop with the same environment as the production server, from any machine.
+
+## Assumptions
+This project assumes that you want to use the following:
+
+1. [uwsgi](http://projects.unbit.it/uwsgi/) (Django runner)
+2. [nginx](http://wiki.nginx.org/Main) (static file-server)
+3. [upstart](http://upstart.ubuntu.com/) (init daemon)
+4. [postgresql](http://www.postgresql.org/) (database)
+5. [fabric](http://docs.fabfile.org/en/1.4.0/index.html) (deployment)
 
 ## Requirements
 This project requires the following:
 
-1. [Ubuntu 10.04](http://www.ubuntu.com/)
+1. [An Ubuntu 10.04 server](http://www.ubuntu.com/)
 2. [Vagrant](http://vagrantup.com/)
 3. [pip](http://pypi.python.org/pypi/pip)
-
-## Assumptions
-This project assumes that you want the following:
-
-1. Django runner: [uwsgi](http://projects.unbit.it/uwsgi/)
-2. Static server: [nginx](http://wiki.nginx.org/Main)
-3. Init scripts: [upstart](http://upstart.ubuntu.com/)
-4. Database: [postgresql](http://www.postgresql.org/)
-5. Deployment: [fabric](http://docs.fabfile.org/en/1.4.0/index.html)
 
 ---
 
@@ -29,7 +29,7 @@ This project assumes that you want the following:
     vagrant up
     fab dev bootstrap
 
-This will take awhile (like, awhile), and you may be prompted for input during the `fab dev bootstrap` step.
+This will take awhile (like, awhile). You may be prompted for input during the `fab dev bootstrap` step, so you will need to bear it out.
 
 
 ## Development
@@ -51,6 +51,7 @@ Get the full list of commands by running `vagrant -h`
 To access django's local dev server, first shell into the vagrant vm by running `vagrant ssh` from the same directory as `Vagrantfile`. The project's root directory is available at `/vagrant/`.
 
 To start the dev server,
+    vagrant ssh
     cd $VAGRANT_ROOT
     workon $PROJECT_NAME
     ./manage.py runserver_plus 0.0.0.0:8000
@@ -66,3 +67,4 @@ This project uses fabric for deployment + provisioning. Several commands are alr
 Note:
 *   Do NOT use sudo when running `pip` commands. We're using [pythonbrew](https://github.com/utahta/pythonbrew) just to avoid that mess.
 *   Nginx runs as the user specified in `environments.py`
+*   uWSGI runs as the user specified in `environments.py`

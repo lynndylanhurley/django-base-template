@@ -6,6 +6,7 @@ from fabric.api import *
 
 @_contextmanager
 def common():
+	env.debug = False
 	yield
 	env.project_name = 'project-name'
 	env.project_title = 'Project Title'
@@ -15,7 +16,6 @@ def common():
 	env.uwsgi_port = 9000
 	env.use_ssh_config = True
 	env.branch = "master"
-	env.debug = False
 	env.release = strftime('%Y%m%d%H%M%S', gmtime())
 
 
@@ -40,4 +40,3 @@ def production():
 		env.user = ''
 		env.hosts = []
 		env.domain = ''
-		env.debug = False

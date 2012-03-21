@@ -23,10 +23,10 @@ def current_project():
 
 def bootstrap():
 	# for my sanity
-	append("~/.bashrc", "alias l=ls")
-	append("~/.bashrc", "alias ll='ls -al'")
-	append("~/.bashrc", "export $PROJECT_NAME=%s" % env.project_name)
-	append("~/.bashrc", "export $VAGRANT_ROOT=/vagrant/deploy")
+	append("~/.bash_profile", "alias l=ls")
+	append("~/.bash_profile", "alias ll='ls -al'")
+	append("~/.bash_profile", "export PROJECT_NAME=%s" % env.project_name)
+	append("~/.bash_profile", "export VAGRANT_ROOT=/vagrant/deploy")
 
 	# make directory skeleton
 	run("mkdir -p ~/sites/%s/releases" % env.project_name)
@@ -52,13 +52,15 @@ def bootstrap():
 	run("pythonbrew install 2.7.2")
 	run("pythonbrew switch 2.7.2")
 
-	# setup python path
-	append("~/.bash_profile", "export PYTHONPATH=settings.local")
-	append("~/.bash_profile", "source $PATH_PYTHONBREW_CURRENT/virtualenvwrapper.sh")
-
 	run("pip install -U pip")
 	run("pip install -U virtualenv virtualenvwrapper")
-	append("~/.bash_profile", "export WORKON_HOME=$HOME/.virtualenvs")
+	append("~/.bash_profile",
+	"""
+if [ $USER == %s ]; then
+	export WORKON_HOME=$HOME/.virtualenvs
+	source $PATH_PYTHONBREW_CURRENT/virtualenvwrapper.sh
+fi
+	""" % env.user)
 
 	run("mkvirtualenv --clear --no-site-packages --distribute %s" % env.project_name)
 
