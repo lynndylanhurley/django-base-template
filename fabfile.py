@@ -132,7 +132,7 @@ def init_db():
 		sudo("sudo -u postgres createdb -O %s %s" % (env.user, env.db_name))
 	except:
 		pass
-	append("/etc/postgresql/8.4/main/pg_hba.conf", "local all postgres ident sameuser", use_sudo=True)
+	append("/etc/postgresql/8.4/main/pg_hba.conf", "local all all ident", use_sudo=True)
 
 
 def upload_settings():
