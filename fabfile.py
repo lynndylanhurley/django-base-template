@@ -70,11 +70,12 @@ def deploy():
 	configure()
 	migrate()
 	#rebuild_index()
-	#collect_static()
+	collect_static()
 	#compress_js_and_css()
 	#prune_releases()
 	link_current()
 	restart_server()
+	cleanup()
 
 
 def archive_current():
@@ -145,7 +146,7 @@ def upload_settings():
 
 def collect_static():
 	print(white("Collecting static files"))
-	with current_project(release):
+	with current_project():
 		run('rm -rf static/*')
 		run('./manage.py collectstatic --noinput')
 
@@ -160,7 +161,7 @@ def link_current():
 		if exists("current"):
 			run ('unlink current')
 
-		run("ln -sf %s/releases/%s %s/current" % (env.project_root, env.release, env.project_root))
+		run("ln -s %s/releases/%s %s/current" % (env.project_root, env.release, env.project_root))
 
 
 def prune_releases():
@@ -197,6 +198,11 @@ def restart_server():
 	"""Restart all processes necessary to the site."""
 	stop_server()
 	start_server()
+
+
+def cleanup():
+	with current_project():
+		run('rm -rf *.pyc')
 
 
 def get_releases():
