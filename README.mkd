@@ -47,10 +47,10 @@ When the initial setup is finished, you will have a running server at [localhost
 ## Development
 Use vagrant to manage the dev server. Commands include:
 
-*   `vagrant suspend`: suspend server
-*   `vagrant reload`: reload server
-*   `vagrant destroy`: destroy vm (useful for testing the bootstrap command)
 *   `vagrant up`: start server
+*   `vagrant reload`: reload server
+*   `vagrant suspend`: suspend server
+*   `vagrant destroy`: destroy vm (useful for testing the bootstrap command)
 *   `vagrant ssh`: shell into dev server
 
 Get the full list of commands by running `vagrant -h`
