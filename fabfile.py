@@ -80,8 +80,8 @@ def deploy():
 	#collect_static()
 	#compress_js_and_css()
 	#prune_releases()
-	#link_current()
-	#restart_server()
+	link_current()
+	restart_server()
 
 
 def archive_current():
@@ -181,22 +181,29 @@ def prune_releases():
 		sudo("rm -rf %s" % f)
 
 
-def start_site():
+def start_server():
 	"""Start all processes necessary to the site."""
 	sudo("nginx")
+	sudo("start %s" % env.project_name)
 
 
-def restart_site():
-	"""Restart all processes necessary to the site."""
-	sudo("nginx -s reload")
-
-
-def stop_site():
+def stop_server():
 	"""Stop all processes related to the site."""
 	try:
 		sudo("nginx -s stop")
 	except:
 		pass
+
+	try:
+		sudo("start %s" % env.project_name)
+	except:
+		pass
+
+
+def restart_server():
+	"""Restart all processes necessary to the site."""
+	stop_server()
+	start_server()
 
 
 def get_releases():
