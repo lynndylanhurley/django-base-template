@@ -1,4 +1,5 @@
 from settings import *
+from path import path
 
 DATABASES = {
 	'default': {
@@ -16,3 +17,4 @@ TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
 GRAPPELLI_ADMIN_TITLE = '%(project_title)'
+MEDIA_ROOT = path(__file__).abspath().dirname() / 'uploads'

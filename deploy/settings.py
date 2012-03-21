@@ -2,7 +2,7 @@ import sys
 from path import path
 from django.conf import global_settings
 
-PROJECT_ROOT = path(__file__).abspath().dirname().dirname()
+PROJECT_ROOT = path(__file__).abspath().dirname()
 SITE_ROOT = PROJECT_ROOT.dirname()
 
 sys.path.insert(0, SITE_ROOT)
