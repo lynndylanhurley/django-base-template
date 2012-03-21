@@ -23,8 +23,10 @@ def current_project():
 
 def bootstrap():
 	# for my sanity
-	append("~/.bashrc", "export l=ls")
-	append("~/.bashrc", "export ll='ls -al'")
+	append("~/.bashrc", "alias l=ls")
+	append("~/.bashrc", "alias ll='ls -al'")
+	append("~/.bashrc", "export $PROJECT_NAME=%s" % env.project_name)
+	append("~/.bashrc", "export $VAGRANT_ROOT=/vagrant/deploy")
 
 	# make directory skeleton
 	run("mkdir -p ~/sites/%s/releases" % env.project_name)
@@ -42,7 +44,7 @@ def bootstrap():
 	sudo("apt-get install nginx libpq-dev postgresql vim curl")
 
 	sed("/etc/nginx/nginx.conf", "user www-data;", "user %s;" % env.user, use_sudo=True)
-	append("/etc/nginx/nginx.conf", "user vagrant;")
+	append("/etc/nginx/nginx.conf", "user vagrant;", use_sudo=True)
 
 	# install python + deps
 	run("curl -kL http://xrl.us/pythonbrewinstall | bash")
@@ -200,6 +202,7 @@ def restart_server():
 
 
 def cleanup():
+	"""Just to be sure."""
 	with current_project():
 		run('rm -rf *.pyc')
 

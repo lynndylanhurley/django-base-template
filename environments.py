@@ -19,13 +19,25 @@ def common():
 	env.release = strftime('%Y%m%d%H%M%S', gmtime())
 
 
+def get_vagrant_param(key):
+	"""Parse vagrant's ssh-config for given key's value"""
+	result = local('vagrant ssh-config | grep %s' % key, capture=True)
+	return result.split()[1]
+
+
 def dev():
 	with common():
-		env.user = 'vagrant'
-		env.hosts = ['127.0.0.1:2200']
-		env.domain = 'localhost'
-		env.settings_class = 'production'
-		# use vagrant ssh key
-		result = local('vagrant ssh-config | grep IdentityFile', capture=True)
-		env.key_filename = result.split()[1]
-		env.debug = True
+		env.user         = get_vagrant_param('User')
+		env.domain       = 'localhost'
+		env.hosts        = ['%s:%s' % (get_vagrant_param('HostName'), get_vagrant_param('Port'))]
+		env.key_filename = get_vagrant_param('IdentityFile')
+		env.debug        = True
+
+
+# TODO: You edit this
+def production():
+	with common():
+		env.user = ''
+		env.hosts = []
+		env.domain = ''
+		env.debug = False

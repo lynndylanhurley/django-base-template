@@ -1,0 +1,68 @@
+# Django Project Template
+
+## Goals
+1. Start with a working deploy config.
+2. Pre-configure the apps that we use on every project.
+3. Start with useful fabric scripts for managing remote servers.
+4. Develop with the same environment as the production server from any machine.
+
+## Requirements
+This project requires the following:
+
+1. [Ubuntu 10.04](http://www.ubuntu.com/)
+2. [Vagrant](http://vagrantup.com/)
+3. [pip](http://pypi.python.org/pypi/pip)
+
+## Assumptions
+This project assumes that you want the following:
+
+1. Django runner: [uwsgi](http://projects.unbit.it/uwsgi/)
+2. Static server: [nginx](http://wiki.nginx.org/Main)
+3. Init scripts: [upstart](http://upstart.ubuntu.com/)
+4. Database: [postgresql](http://www.postgresql.org/)
+5. Deployment: [fabric](http://docs.fabfile.org/en/1.4.0/index.html)
+
+---
+
+## Initial setup
+    pip install fabric
+    vagrant up
+    fab dev bootstrap
+
+This will take awhile (like, awhile), and you may be prompted for input during the `fab dev bootstrap` step.
+
+
+## Development
+When the initial setup is finished, you will have a running server at localhost:8888. Use vagrant to manage the dev server. Commands include:
+
+*   suspend server:
+    `vagrant suspend`
+*   reload server:
+    `vagrant reload`
+*   destroy vm (useful for testing the bootstrap command):
+    `vagrant destroy`
+*   start server:
+    `vagrant up`
+*   shell into dev server:
+    `vagrant ssh`
+
+Get the full list of commands by running `vagrant -h`
+
+To access django's local dev server, first shell into the vagrant vm by running `vagrant ssh` from the same directory as `Vagrantfile`. The project's root directory is available at `/vagrant/`.
+
+To start the dev server,
+    cd $VAGRANT_ROOT
+    workon $PROJECT_NAME
+    ./manage.py runserver_plus 0.0.0.0:8000
+
+You should now be able to access the dev server on [localhost:8000](http://localhost:8000)
+
+## Deployment
+This project uses fabric for deployment + provisioning. Several commands are already included (replace 'xxx' with the name of your env from `environments.py`):
+*   `fab xxx bootstrap`: Set up server
+*   `fab xxx deploy`: Deploy latest git commit to server
+*   `fab xxx rollback`: Roll back to previous deploy
+
+Note:
+*   Do NOT use sudo when running `pip` commands. We're using [pythonbrew](https://github.com/utahta/pythonbrew) just to avoid that mess.
+*   Nginx runs as the user specified in `environments.py`
