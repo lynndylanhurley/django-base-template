@@ -1,6 +1,6 @@
 from __future__ import with_statement
 from contextlib import contextmanager as _contextmanager
-from fabric.contrib.files import exists, append, upload_template
+from fabric.contrib.files import exists, append, upload_template, sed
 from fabric.contrib.project import rsync_project
 from fabric.api import *
 from fabric.colors import *
@@ -13,7 +13,6 @@ def current_env():
 	with cd("%s" % env.project_root):
 		with prefix('workon %s' % env.project_name):
 			yield
-	set_permissions()
 
 @_contextmanager
 def current_project():
@@ -24,8 +23,8 @@ def current_project():
 
 def bootstrap():
 	# for my sanity
-	append("~/.bashrc", "alias l=ls")
-	append("~/.bashrc", "alias ll='ls -al'")
+	append("~/.bashrc", "export l=ls")
+	append("~/.bashrc", "export ll='ls -al'")
 
 	# make directory skeleton
 	run("mkdir -p ~/sites/%s/releases" % env.project_name)
@@ -35,40 +34,35 @@ def bootstrap():
 	run("mkdir -p ~/bin")
 	sudo("rm -rf ~/.virtualenvs")
 
-
 	# install deps
 	sudo("apt-get update")
-	sudo("apt-get upgrade")
+	#sudo("apt-get upgrade")
 	sudo("apt-get install python-software-properties")
-	#sudo("add-apt-repository ppa:uwsgi/release")
 	sudo("add-apt-repository ppa:nginx/stable")
 	sudo("apt-get update")
-	sudo("apt-get install nginx")
-	sudo("apt-get install postgresql")
-	sudo("apt-get install vim")
-	sudo("apt-get install python-pip python-dev build-essential libpq-dev python-virtualenv")
+	sudo("apt-get install nginx libpq-dev postgresql vim curl")
+
+	sed("/etc/nginx/nginx.conf", "user www-data;", "user %s;" % env.user, use_sudo=True)
+	append("/etc/nginx/nginx.conf", "user vagrant;")
+
+	# install python + deps
+	run("curl -kL http://xrl.us/pythonbrewinstall | bash")
+	append("~/.bash_profile", "[[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc")
+	run("pythonbrew install 2.7.2")
+	run("pythonbrew switch 2.7.2")
 
 	# setup python path
-	append("~/.bash_profile", "export WORKON_HOME=$HOME/.virtualenvs")
 	append("~/.bash_profile", "export PYTHONPATH=settings.local")
-	append("~/.bash_profile", "source /usr/local/bin/virtualenvwrapper.sh")
+	append("~/.bash_profile", "source $PATH_PYTHONBREW_CURRENT/virtualenvwrapper.sh")
 
-	# install python deps
-	sudo("pip install -U pip")
-	sudo("pip install -U virtualenv virtualenvwrapper")
+	run("pip install -U pip")
+	run("pip install -U virtualenv virtualenvwrapper")
+	append("~/.bash_profile", "export WORKON_HOME=$HOME/.virtualenvs")
 
 	run("mkvirtualenv --clear --no-site-packages --distribute %s" % env.project_name)
 
 	init_db()
 	deploy()
-
-
-def set_permissions():
-	"""Reset permissions on all related files."""
-	if exists('~/.virtualenvs'):
-		sudo("chown -R %s:%s /home/%s/.virtualenvs" % (env.user, env.user, env.user))
-	if exists(env.project_root):
-		sudo("chown -R %s:%s %s" % (env.user, env.user, env.project_root))
 
 
 def deploy():
