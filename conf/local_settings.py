@@ -16,5 +16,5 @@ DEBUG = %(debug)s
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
-GRAPPELLI_ADMIN_TITLE = '%(project_title)'
+GRAPPELLI_ADMIN_TITLE = '%(project_title)s'
 MEDIA_ROOT = path(__file__).abspath().dirname() / 'uploads'
