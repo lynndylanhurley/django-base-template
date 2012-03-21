@@ -150,7 +150,7 @@ def upload_settings():
 	sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
 
 
-def collect_static(release):
+def collect_static():
 	print(white("Collecting static files"))
 	with current_project(release):
 		sudo('rm -rf static/*')
@@ -162,7 +162,7 @@ def fetch_requirements():
 		run("pip install -r requirements.txt")
 
 
-def link_current(release):
+def link_current():
 	with current_project():
 		if exists("current"):
 			run ('unlink current')
@@ -195,7 +195,7 @@ def stop_server():
 		pass
 
 	try:
-		sudo("start %s" % env.project_name)
+		sudo("stop %s" % env.project_name)
 	except:
 		pass
 
