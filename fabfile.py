@@ -107,7 +107,7 @@ def configure():
 
 def build_deps():
 	with current_project():
-		sudo('pip install -r requirements.txt')
+		run('pip install -r requirements.txt')
 
 
 def migrate():
@@ -146,7 +146,7 @@ def upload_settings():
 def collect_static():
 	print(white("Collecting static files"))
 	with current_project(release):
-		sudo('rm -rf static/*')
+		run('rm -rf static/*')
 		run('./manage.py collectstatic --noinput')
 
 
@@ -171,7 +171,7 @@ def prune_releases():
 	print white("removing folders: %r" % files)
 
 	for f in files:
-		sudo("rm -rf %s" % f)
+		run("rm -rf %s" % f)
 
 
 def start_server():
