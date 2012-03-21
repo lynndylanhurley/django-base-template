@@ -1,5 +1,3 @@
 *.log
 *.pot
 *.pyc
-deploy/static/
-deploy/uploads/
