@@ -91,14 +91,14 @@ def upload_current():
 	"""Upload most recent changes into new release directory."""
 	print(white("Creating new release on production"))
 
-	with cd( "%s/releases" % env.project_root ):
-		run("mkdir %s" % env.release)
-		# copy previous env.release to new dir for rsync
-		if exists("current"):
-			run("cp -R current/* %s" % env.release)
+	with cd( "%s" % env.project_root ):
+		run("mkdir -p releases/%s" % env.release)
 
-		# rsync local tmp archive with previous release copy
-		rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release), local_dir='/tmp/%s/deploy/' % env.release, delete=True)
+		if exists("current"):
+			run("cp -R current/* releases/%s" % env.release)
+
+	# rsync local tmp archive with previous release copy
+	rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release), local_dir='/tmp/%s/deploy/' % env.release, delete=True)
 
 
 def configure():

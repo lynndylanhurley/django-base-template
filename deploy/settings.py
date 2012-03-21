@@ -52,7 +52,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = PROJECT_ROOT / 'assets'
+STATIC_ROOT = PROJECT_ROOT / 'static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -149,6 +149,10 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ()
 
 STATICFILES_FINDERS = global_settings.STATICFILES_FINDERS + (
 		'compressor.finders.CompressorFinder',
+)
+
+STATICFILES_DIRS = (
+	PROJECT_ROOT / 'assets',
 )
 
 # local overrides
