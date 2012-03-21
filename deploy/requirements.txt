@@ -13,3 +13,4 @@ psycopg2
 sorl-thumbnail
 django-debug-toolbar
 ipython
+uWSGI

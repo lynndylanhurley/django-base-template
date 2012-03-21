@@ -22,7 +22,7 @@ def dev():
 	with common():
 		env.user = 'vagrant'
 		env.hosts = ['127.0.0.1:2200']
-		env.domain = 'example.com'
+		env.domain = 'localhost'
 		env.settings_class = 'production'
 		# use vagrant ssh key
 		result = local('vagrant ssh-config | grep IdentityFile', capture=True)

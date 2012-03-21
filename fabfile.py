@@ -13,6 +13,7 @@ def current_env():
 	with cd("%s" % env.project_root):
 		with prefix('workon %s' % env.project_name):
 			yield
+	set_permissions()
 
 @_contextmanager
 def current_project():
@@ -22,33 +23,40 @@ def current_project():
 
 
 def bootstrap():
-	# make sure we can even do this
-	append("~/.bash_profile", "export WORKON_HOME=$HOME/.virtualenvs")
-	append("~/.bash_profile", "export PYTHONPATH=settings.local")
-	append("~/.bash_profile", "source /usr/local/bin/virtualenvwrapper.sh")
+	# for my sanity
+	append("~/.bashrc", "alias l=ls")
+	append("~/.bashrc", "alias ll='ls -al'")
 
 	# make directory skeleton
 	run("mkdir -p ~/sites/%s/releases" % env.project_name)
+	run("mkdir -p ~/sites/%s/uploads" % env.project_name)
 	run("mkdir -p ~/logs/nginx")
 	run("mkdir -p ~/logs/uwsgi")
 	run("mkdir -p ~/bin")
 	sudo("rm -rf ~/.virtualenvs")
+
 
 	# install deps
 	sudo("apt-get update")
 	sudo("apt-get upgrade")
 	sudo("apt-get install python-software-properties")
 	#sudo("add-apt-repository ppa:uwsgi/release")
+	sudo("add-apt-repository ppa:nginx/stable")
 	sudo("apt-get update")
 	sudo("apt-get install nginx")
 	sudo("apt-get install postgresql")
+	sudo("apt-get install vim")
 	sudo("apt-get install python-pip python-dev build-essential libpq-dev python-virtualenv")
 
-	# python deps
-	run("pip install -U pip")
-	run("pip install -U virtualenv virtualenvwrapper")
+	# setup python path
+	append("~/.bash_profile", "export WORKON_HOME=$HOME/.virtualenvs")
+	append("~/.bash_profile", "export PYTHONPATH=settings.local")
+	append("~/.bash_profile", "source /usr/local/bin/virtualenvwrapper.sh")
 
-	set_permissions()
+	# install python deps
+	sudo("pip install -U pip")
+	sudo("pip install -U virtualenv virtualenvwrapper")
+
 	run("mkvirtualenv --clear --no-site-packages --distribute %s" % env.project_name)
 
 	init_db()
@@ -57,8 +65,9 @@ def bootstrap():
 
 def set_permissions():
 	"""Reset permissions on all related files."""
-	with current_env():
+	if exists('~/.virtualenvs'):
 		sudo("chown -R %s:%s /home/%s/.virtualenvs" % (env.user, env.user, env.user))
+	if exists(env.project_root):
 		sudo("chown -R %s:%s %s" % (env.user, env.user, env.project_root))
 
 
@@ -99,7 +108,6 @@ def upload_current():
 
 
 def configure():
-	set_permissions()
 	build_deps()
 	upload_settings()
 
@@ -129,18 +137,16 @@ def init_db():
 
 def upload_settings():
 	#upload templates
-	upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites_available' % env.project_name, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/upstart.conf', destination='/etc/init' % env.project_name, context=env, backup=False, use_sudo=True)
+	upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites-available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
+	upload_template(filename='conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
 	upload_template(filename='conf/uwsgi.ini', destination='%s' % env.project_root, context=env, backup=False, use_sudo=True)
 	upload_template(filename='conf/local_settings.py', destination='%s/current' % env.project_root, context=env, backup=False, use_sudo=False)
-
-	#rename files
-	sudo('mv /etc/nginx/sites_available/nginx.conf /etc/nginx/sites_available/%s' % env.project_name)
-	sudo('mv /etc/init/upstart.conf /etc/init/%s.conf' % env.project_name)
 
 	#re-link nginx conf
 	if exists("/etc/nginx/sites-enabled/%s" % env.project_name):
 		sudo("unlink /etc/nginx/sites-enabled/%s" % env.project_name)
+	if exists("/etc/nginx/sites-enabled/default"):
+		sudo("unlink /etc/nginx/sites-enabled/default")
 	sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
 
 
