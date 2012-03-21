@@ -11,7 +11,7 @@ def common():
 	env.db_name = env.project_name
 	env.project_root = '/home/%s/sites/%s' % (env.user, env.project_name)
 	env.python_path = "/home/%s/.virtualenvs/%s" % (env.user, env.project_name)
-	env.uwsgi_port = 8000
+	env.uwsgi_port = 9000
 	env.use_ssh_config = True
 	env.branch = "master"
 	env.debug = False
