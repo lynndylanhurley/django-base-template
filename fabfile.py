@@ -32,7 +32,6 @@ def bootstrap():
 	run("mkdir -p ~/logs/nginx")
 	run("mkdir -p ~/logs/uwsgi")
 	run("mkdir -p ~/bin")
-	sudo("rm -rf ~/.virtualenvs")
 
 	# install deps
 	sudo("apt-get update")
