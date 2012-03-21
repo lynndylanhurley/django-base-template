@@ -10,12 +10,12 @@ def common():
 	env.project_name = 'project-name'
 	env.db_name = env.project_name
 	env.project_root = '/home/%s/sites/%s' % (env.user, env.project_name)
-	env.release = strftime('%Y%m%d%H%M%S', gmtime())
+	env.python_path = "/home/%s/.virtualenvs/%s" % (env.user, env.project_name)
 	env.uwsgi_port = 8000
 	env.use_ssh_config = True
 	env.branch = "master"
-	env.python_path = "/home/%s/.virtualenvs/%s" % (env.user, env.project_name)
 	env.debug = False
+	env.release = strftime('%Y%m%d%H%M%S', gmtime())
 
 
 def dev():
