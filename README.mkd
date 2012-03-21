@@ -9,11 +9,11 @@
 ## Assumptions
 This project assumes that you want to use the following:
 
-1. [uwsgi](http://projects.unbit.it/uwsgi/) (Django runner)
-2. [nginx](http://wiki.nginx.org/Main) (static file-server)
-3. [upstart](http://upstart.ubuntu.com/) (init daemon)
-4. [postgresql](http://www.postgresql.org/) (database)
-5. [fabric](http://docs.fabfile.org/en/1.4.0/index.html) (deployment)
+*   [uwsgi](http://projects.unbit.it/uwsgi/) (Django runner)
+*   [nginx](http://wiki.nginx.org/Main) (static file-server)
+*   [upstart](http://upstart.ubuntu.com/) (init daemon)
+*   [postgresql](http://www.postgresql.org/) (database)
+*   [fabric](http://docs.fabfile.org/en/1.4.0/index.html) (deployment)
 
 ## Requirements
 This project requires the following:
@@ -21,6 +21,17 @@ This project requires the following:
 1. [An Ubuntu 10.04 server](http://www.ubuntu.com/)
 2. [Vagrant](http://vagrantup.com/)
 3. [pip](http://pypi.python.org/pypi/pip)
+
+## What you get for free
+
+*   [django-extensions](http://packages.python.org/django-extensions/) (with [Werkzeug](http://werkzeug.pocoo.org/))
+*   [path.py](https://github.com/dottedmag/path.py)
+*   [South](http://south.aeracode.org/)
+*   [django-grappelli](http://readthedocs.org/docs/django-grappelli/en/latest/)
+*   [django-compressor](http://django_compressor.readthedocs.org/en/latest/index.html)
+*   [sorl-thumbnail](http://thumbnail.sorl.net/) (with PIL using [pillow](http://pypi.python.org/pypi/Pillow))
+*   [django-debug-toolbar](https://github.com/django-debug-toolbar/django-debug-toolbar) (for local dev only)
+*   [ipython](http://ipython.org/)
 
 ---
 
