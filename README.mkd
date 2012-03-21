@@ -72,7 +72,7 @@ This project uses fabric for deployment + provisioning. Several commands are alr
 *   `fab xxx deploy`: Deploy latest git commit to server
 *   `fab xxx rollback`: Roll back to previous deploy
 
-Note:
+### Note:
 
 *   Do NOT use sudo when running `pip` commands. We use [pythonbrew](https://github.com/utahta/pythonbrew) to avoid that mess.
 *   Nginx, uWSGI, and Postgres run as the user specified in `environments.py`
