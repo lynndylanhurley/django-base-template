@@ -42,8 +42,10 @@ This project requires the following:
 
 This will take awhile (like, awhile). You may be prompted for input during the `fab dev bootstrap` step, so you will need to bear it out.
 
+When the initial setup is finished, you will have a running server at [localhost:8888](http://localhost:8888).
+
 ## Development
-When the initial setup is finished, you will have a running server at [localhost:8888](http://localhost:8888). Use vagrant to manage the dev server. Commands include:
+Use vagrant to manage the dev server. Commands include:
 
 *   `vagrant suspend`: suspend server
 *   `vagrant reload`: reload server
