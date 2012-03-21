@@ -14,5 +14,4 @@ sorl-thumbnail
 django-debug-toolbar
 ipython
 uWSGI
-yolk
 Werkzeug
