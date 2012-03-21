@@ -62,6 +62,7 @@ Get the full list of commands by running `vagrant -h`
 To access django's local dev server, first shell into the vagrant vm by running `vagrant ssh` from the same directory as `Vagrantfile`. The project's root directory is available at `/vagrant/`.
 
 To start the dev server,
+
     vagrant ssh
     cd $VAGRANT_ROOT
     workon $PROJECT_NAME
