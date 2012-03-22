@@ -42,7 +42,7 @@ This project requires the following:
 
 This will take awhile (like, awhile). You may be prompted for input during the `fab dev bootstrap` step, so you will need to bear it out.
 
-When the initial setup is finished, you will have a running server at [localhost:8888](http://localhost:8888).
+When the initial setup is finished, you will have a running server instance at [localhost:8888](http://localhost:8888).
 
 ## Development
 Use vagrant to manage the dev server. Commands include:
@@ -55,7 +55,7 @@ Use vagrant to manage the dev server. Commands include:
 
 Get the full list of commands by running `vagrant -h`
 
-### Development Server
+### Local Development Server
 To access django's local dev server, you have two options - you can spend several hours setting up your MacBook (and helping everyone else on the project get set up), or you can use the environment that we've already built from inside the Vagrant VM.
 
 If you choose the latter option, follow these instructions:
@@ -65,7 +65,7 @@ If you choose the latter option, follow these instructions:
     workon $PROJECT_NAME
     ./manage.py runserver_plus 0.0.0.0:8000
 
-You should now be able to access the dev server on [localhost:8000](http://localhost:8000)
+You should now be able to access the local dev server on [localhost:8000](http://localhost:8000)
 
 ## Deployment
 This project uses fabric for deployment + provisioning. Several commands are already included (replace 'xxx' with the name of your env from `environments.py`):
