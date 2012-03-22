@@ -22,7 +22,7 @@ This project requires the following:
 2. [Vagrant](http://vagrantup.com/)
 3. [pip](http://pypi.python.org/pypi/pip)
 
-## What you get for free
+## Included Apps
 
 *   [django-extensions](http://packages.python.org/django-extensions/) (with [Werkzeug](http://werkzeug.pocoo.org/))
 *   [path.py](https://github.com/dottedmag/path.py)
@@ -50,15 +50,15 @@ Use vagrant to manage the dev server. Commands include:
 *   `vagrant up`: start server
 *   `vagrant reload`: reload server
 *   `vagrant suspend`: suspend server
-*   `vagrant destroy`: destroy vm (useful for testing the bootstrap command)
+*   `vagrant destroy`: destroy VM (useful for testing the bootstrap command)
 *   `vagrant ssh`: shell into dev server
 
 Get the full list of commands by running `vagrant -h`
 
 ### Development Server
-To access django's local dev server, you have two options - you can go thru the pain of setting up your stupid MacBook, or you can just use the vm that we've already set up.
+To access django's local dev server, you have two options - you can spend several hours setting up your MacBook (and helping everyone else on the project get set up), or you can use the environment that we've already built from inside the Vagrant VM.
 
-If you choose the latter option, follow these simple instructions:
+If you choose the latter option, follow these instructions:
 
     vagrant ssh
     cd $VAGRANT_ROOT
