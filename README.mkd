@@ -34,7 +34,6 @@ This project requires the following:
 *   [sorl-thumbnail](http://thumbnail.sorl.net/) (with PIL using [pillow](http://pypi.python.org/pypi/Pillow))
 *   [django-debug-toolbar](https://github.com/django-debug-toolbar/django-debug-toolbar) (for local dev only)
 *   [django-flatblocks](https://github.com/zerok/django-flatblocks)
-*   [django-seo-cascade](https://github.com/thisismess/django-seo-cascade)
 
 ---
 
