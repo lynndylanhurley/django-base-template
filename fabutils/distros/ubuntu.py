@@ -14,7 +14,7 @@ def install_distro_deps():
 	sudo("apt-get install python-software-properties")
 	sudo("add-apt-repository ppa:nginx/stable")
 	sudo("apt-get update")
-	sudo("apt-get install nginx libpq-dev postgresql vim curl memcached libmemcache-dev libxml2-dev libxslt1-dev")
+	sudo("apt-get install nginx libpq-dev postgresql vim curl memcached libmemcache-dev")
 
 def init_nginx():
 	sed("/etc/nginx/nginx.conf", "user www-data;", "user %s;" % env.user, use_sudo=True)
