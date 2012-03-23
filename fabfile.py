@@ -63,4 +63,3 @@ def restart_server():
 	"""Restart all processes necessary to the site."""
 	stop_server()
 	start_server()
-

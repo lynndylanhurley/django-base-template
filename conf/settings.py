@@ -1,4 +1,4 @@
-from settings import *
+from common_settings import *
 from path import path
 
 DATABASES = {
@@ -10,6 +10,13 @@ DATABASES = {
 		'HOST': '',
 		'PORT': '',
 	}
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': 'unix:/tmp/memcached.sock',
+    }
 }
 
 DEBUG = %(debug)s
