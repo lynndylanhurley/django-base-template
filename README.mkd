@@ -26,13 +26,15 @@ This project requires the following:
 ## Included Apps
 
 *   [django-extensions](http://packages.python.org/django-extensions/) (with [Werkzeug](http://werkzeug.pocoo.org/))
+*   [ipython](http://ipython.org/)
 *   [path.py](https://github.com/dottedmag/path.py)
 *   [South](http://south.aeracode.org/)
 *   [django-grappelli](http://readthedocs.org/docs/django-grappelli/en/latest/)
 *   [django-compressor](http://django_compressor.readthedocs.org/en/latest/index.html)
 *   [sorl-thumbnail](http://thumbnail.sorl.net/) (with PIL using [pillow](http://pypi.python.org/pypi/Pillow))
 *   [django-debug-toolbar](https://github.com/django-debug-toolbar/django-debug-toolbar) (for local dev only)
-*   [ipython](http://ipython.org/)
+*   [django-flatblocks](https://github.com/zerok/django-flatblocks)
+*   [django-seo-cascade](https://github.com/thisismess/django-seo-cascade)
 
 ---
 

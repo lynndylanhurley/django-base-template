@@ -16,3 +16,5 @@ ipython
 uWSGI
 Werkzeug
 python-memcached
+django-flatblocks
+django-seo-cascade

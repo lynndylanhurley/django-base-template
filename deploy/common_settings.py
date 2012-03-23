@@ -120,6 +120,8 @@ INSTALLED_APPS = (
 		'django_extensions',
 		'compressor',
 		'sorl.thumbnail',
+		'django-flatblocks',
+		'django-seo-cascade',
 )
 
 # A sample logging configuration. The only tangible logging
