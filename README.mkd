@@ -92,9 +92,6 @@ Each environment will have its own unique settings (i.e. `DEBUG`). These setting
 #### conf/
 This directory contains configuration templates that will be formatted with the local settings for the targeted server.
 
-#### fabutils/
-Useful fabric scripts.
-
 #### deploy/
 Files in this directory are pushed to the server when running `fab xxx deploy`.
 
@@ -115,3 +112,7 @@ Django template overrides.
 
 #### deploy/uploads/
 File uploads for local development. This directory is git-ignored - each server will have its own persistent uploads folder.
+
+#### fabutils/
+Useful fabric scripts.
+
