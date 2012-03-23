@@ -82,6 +82,8 @@ This project uses fabric for deployment + provisioning. Several commands are alr
 *   Do NOT use sudo when running `pip` commands. We use [pythonbrew](https://github.com/utahta/pythonbrew) to avoid that mess.
 *   Nginx, uWSGI, and Postgres run as the user specified in `environments.py`
 
+---
+
 ## Organizational Conventions
 
 ### Settings
