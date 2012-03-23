@@ -7,175 +7,37 @@ from fabric.colors import *
 from environments import *
 from pprint import pprint
 
-
-@_contextmanager
-def current_env():
-	with cd("%s" % env.project_root):
-		with prefix('workon %s' % env.project_name):
-			yield
-
-@_contextmanager
-def current_project():
-	with current_env():
-		with cd("releases/%s" % env.release):
-			yield
+import fabutils
+from fabutils.db import postgres
+from fabutils.distros import ubuntu
 
 
 def bootstrap():
-	# for my sanity
-	append("~/.bash_profile", "alias l=ls")
-	append("~/.bash_profile", "alias ll='ls -al'")
-	append("~/.bash_profile", "export PROJECT_NAME=%s" % env.project_name)
-	append("~/.bash_profile", "export VAGRANT_ROOT=/vagrant/deploy")
-
-	# make directory skeleton
-	run("mkdir -p ~/sites/%s/releases" % env.project_name)
-	run("mkdir -p ~/sites/%s/uploads" % env.project_name)
-	run("mkdir -p ~/logs/nginx")
-	run("mkdir -p ~/logs/uwsgi")
-	run("mkdir -p ~/bin")
-
-	# install deps
-	sudo("apt-get update")
-	#sudo("apt-get upgrade")
-	sudo("apt-get install python-software-properties")
-	sudo("add-apt-repository ppa:nginx/stable")
-	sudo("apt-get update")
-	sudo("apt-get install nginx libpq-dev postgresql vim curl")
-
-	sed("/etc/nginx/nginx.conf", "user www-data;", "user %s;" % env.user, use_sudo=True)
-	append("/etc/nginx/nginx.conf", "user vagrant;", use_sudo=True)
-
-	# install python + deps
-	run("curl -kL http://xrl.us/pythonbrewinstall | bash")
-	append("~/.bash_profile", "[[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc")
-	run("pythonbrew install 2.7.2")
-	run("pythonbrew switch 2.7.2")
-
-	run("pip install -U pip")
-	run("pip install -U virtualenv virtualenvwrapper")
-	append("~/.bash_profile",
-	"""
-if [ $USER == %s ]; then
-	export WORKON_HOME=$HOME/.virtualenvs
-	source $PATH_PYTHONBREW_CURRENT/virtualenvwrapper.sh
-fi
-	""" % env.user)
-
-	run("mkvirtualenv --clear --no-site-packages --distribute %s" % env.project_name)
-
-	init_db()
+	fabutils.prepare_server()
+	ubuntu.install_distro_deps()
+	ubuntu.init_nginx()
+	fabutils.install_python()
+	postgres.init_db()
 	deploy()
 
 
 def deploy():
-	archive_current()
-	upload_current()
+	fabutils.archive_current()
+	fabutils.upload_current()
 	configure()
-	migrate()
+	fabutils.migrate()
 	#rebuild_index()
-	collect_static()
+	fabutils.collect_static()
 	#compress_js_and_css()
 	#prune_releases()
-	link_current()
+	fabutils.link_current()
 	restart_server()
-	cleanup()
-
-
-def archive_current():
-	"""Create an archive from the latest git commit. The branch is specified
-	in the 'env' variable in from the environments module."""
-
-	print(white("-->Using branch %s" % env.branch))
-	local('mkdir -p /tmp/%s' % env.release)
-	local('git archive %s deploy | tar -x -C /tmp/%s' % (env.branch, env.release))
-
-
-def upload_current():
-	"""Upload most recent changes into new release directory."""
-	print(white("Creating new release on production"))
-
-	with cd( "%s" % env.project_root ):
-		run("mkdir -p releases/%s" % env.release)
-
-		if exists("current"):
-			run("cp -R current/* releases/%s" % env.release)
-
-	rsync_project(remote_dir='%s/releases/%s' % (env.project_root, env.release), local_dir='/tmp/%s/deploy/' % env.release, delete=True)
+	fabutils.cleanup()
 
 
 def configure():
-	build_deps()
-	upload_settings()
-
-
-def build_deps():
-	with current_project():
-		run('pip install -r requirements.txt')
-
-
-def migrate():
-	with current_project():
-		run( './manage.py syncdb' )
-		run( './manage.py migrate --all --delete-ghost-migrations' )
-
-
-def init_db():
-	try:
-		sudo("sudo -u postgres createuser -D -A -P %s" % env.user)
-	except:
-		pass
-	try:
-		sudo("sudo -u postgres createdb -O %s %s" % (env.user, env.db_name))
-	except:
-		pass
-	append("/etc/postgresql/8.4/main/pg_hba.conf", "local all all ident", use_sudo=True)
-
-
-def upload_settings():
-	#upload templates
-	upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites-available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/uwsgi.ini', destination='%s' % env.project_root, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/local_settings.py', destination='%s/releases/%s' % (env.project_root, env.release), context=env, backup=False, use_sudo=False)
-
-	#re-link nginx conf
-	if exists("/etc/nginx/sites-enabled/%s" % env.project_name):
-		sudo("unlink /etc/nginx/sites-enabled/%s" % env.project_name)
-	if exists("/etc/nginx/sites-enabled/default"):
-		sudo("unlink /etc/nginx/sites-enabled/default")
-	sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
-
-
-def collect_static():
-	print(white("Collecting static files"))
-	with current_project():
-		run('rm -rf static/*')
-		run('./manage.py collectstatic --noinput')
-
-
-def fetch_requirements():
-	with current_project():
-		run("pip install -r requirements.txt")
-
-
-def link_current():
-	with current_project():
-		if exists("current"):
-			run ('unlink current')
-
-		run("ln -s %s/releases/%s %s/current" % (env.project_root, env.release, env.project_root))
-
-
-def prune_releases():
-	"""Remove all but the 5 most recent release directories."""
-	files = get_releases()
-	del files[-5:]
-
-	print white("removing folders: %r" % files)
-
-	for f in files:
-		run("rm -rf %s" % f)
+	fabutils.build_python_deps()
+	fabutils.upload_settings()
 
 
 def start_server():
@@ -202,18 +64,3 @@ def restart_server():
 	stop_server()
 	start_server()
 
-
-def cleanup():
-	"""Just to be sure."""
-	with current_project():
-		run('rm -rf *.pyc')
-
-
-def get_releases():
-	"""Return array of release directories with names that start with a number."""
-	files = run('ls -a %s/releases' % env.project_root)
-	files = re.split("[\s]+", files)
-	files = filter(lambda f: re.match("^[\d]+", f), files)
-	files = map(lambda f: "%s/releases/%s" % (env.project_root, f), files)
-	files.sort()
-	return files

@@ -2,9 +2,10 @@
 
 ## Goals
 1. Start with a working deploy config.
-2. Pre-configure the apps that we use on every project.
-3. Provide useful fabric scripts for managing remote servers.
-4. Develop with the same environment as the production server, from any machine.
+1. Pre-configure the apps that we use on every project.
+1. Follow best practices and conventions wherever possible.
+1. Develop with the same environment as the production server, from any machine.
+1. Provide useful fabric scripts for managing remote servers.
 
 ## Assumptions
 This project assumes that you want to use the following:
