@@ -99,7 +99,7 @@ def upload_settings():
 	upload_template(filename='conf/nginx.conf', destination='/etc/nginx/sites-available/%s' % env.project_name, context=env, backup=False, use_sudo=True)
 	upload_template(filename='conf/upstart.conf', destination='/etc/init/%s.conf' % env.project_name, context=env, backup=False, use_sudo=True)
 	upload_template(filename='conf/uwsgi.ini', destination='%s' % env.project_root, context=env, backup=False, use_sudo=True)
-	upload_template(filename='conf/local_settings.py', destination='%s/releases/%s' % (env.project_root, env.release), context=env, backup=False, use_sudo=False)
+	upload_template(filename='conf/settings.py', destination='%s/releases/%s' % (env.project_root, env.release), context=env, backup=False, use_sudo=False)
 
 	#re-link nginx conf
 	if exists("/etc/nginx/sites-enabled/%s" % env.project_name):

@@ -83,9 +83,9 @@ This project uses fabric for deployment + provisioning. Several commands are alr
 ## Organizational Conventions
 
 ### Settings
-Settings that are common to each environment are specified in `deploy/common_settings.py`. For example, each environment will share the base `INSTALLED_APPS` list.
+Settings that are common to each environment are specified in `deploy/common_settings.py`. For example, each environment will share the base `INSTALLED_APPS` list, so that is defined in `deploy/common_settings.py`.
 
-Each environment will have its own unique settings, for example `DEBUG`. These settings should be defined in `deploy/settings.py`.
+Each environment will have its own unique settings (i.e. `DEBUG`). These settings should be defined in `deploy/settings.py`.
 
 ### Directory Structure
 
