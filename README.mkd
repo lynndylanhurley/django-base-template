@@ -19,7 +19,7 @@ This project assumes that you want to use the following:
 ## Requirements
 This project requires the following:
 
-1. [An Ubuntu 10.04 server](http://www.ubuntu.com/)
+1. An [Ubuntu 10.04](http://www.ubuntu.com/) server
 2. [Vagrant](http://vagrantup.com/)
 3. [pip](http://pypi.python.org/pypi/pip)
 
@@ -72,9 +72,9 @@ You should now be able to access the local dev server on [localhost:8000](http:/
 ## Deployment
 This project uses fabric for deployment + provisioning. Several commands are already included (replace 'xxx' with the name of your env from `environments.py`):
 
-*   `fab xxx bootstrap`: Install dependencies, deploy initial app
-*   `fab xxx deploy`: Deploy latest git commit to server
-*   `fab xxx rollback`: Roll back to previous deploy
+*   `fab xxx bootstrap`: Install dependencies, deploy initial app to xxx.
+*   `fab xxx deploy`: Deploy latest git commit to xxx server.
+*   `fab xxx rollback`: Roll back to previous deploy on xxx.
 
 ### Note:
 
@@ -93,10 +93,10 @@ Each environment will have its own unique settings (i.e. `DEBUG`). These setting
 ### Directory Structure
 
 #### conf/
-This directory contains configuration templates that will be formatted with the local settings for the targeted server.
+This directory contains configuration templates that will be formatted with the local settings for the target server.
 
 #### deploy/
-Files in this directory are pushed to the server when running `fab xxx deploy`.
+Files in this directory are pushed to the target server when running `fab xxx deploy`.
 
 #### deploy/apps/
 This is where to place apps created with the `django-admin.py startapp` command.

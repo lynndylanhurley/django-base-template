@@ -18,4 +18,4 @@ def install_distro_deps():
 
 def init_nginx():
 	sed("/etc/nginx/nginx.conf", "user www-data;", "user %s;" % env.user, use_sudo=True)
-	append("/etc/nginx/nginx.conf", "user vagrant;", use_sudo=True)
+	append("/etc/nginx/nginx.conf", "user %s;" % env.user, use_sudo=True)
