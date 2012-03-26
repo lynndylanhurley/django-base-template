@@ -155,3 +155,5 @@ STATICFILES_FINDERS = global_settings.STATICFILES_FINDERS + (
 STATICFILES_DIRS = (
 	PROJECT_ROOT / 'assets',
 )
+
+GRAPPELLI_ADMIN_TITLE = '{{ app_name }}'

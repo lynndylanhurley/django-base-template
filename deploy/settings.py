@@ -25,7 +25,7 @@ DEBUG_TOOLBAR_PANELS = (
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'project-name',
+		'NAME': '{{ app_name|slugify }}',
 		'USER': 'vagrant',
 		'PASSWORD': '',
 		'HOST': '',
