@@ -1,4 +1,3 @@
-{% if not name %}
 # Django Base Template
 
 ## Goals
@@ -17,9 +16,19 @@ This project assumes that you want to use the following:
 *   [postgresql](http://www.postgresql.org/) (database)
 *   [fabric](http://docs.fabfile.org/en/1.4.0/index.html) (deployment)
 
-{% else %}
-# {{ name }}
-{% endif %}
+## Project Initialization
+With Django 1.4, you can use the new project template feature.
+`django-admin.py --template=https://github.com/lynndylanhurley/django-base-template/tarball/master --extension=py,mkd app_name`
+Where `app_name` is the name of your app.
+
+Otherwise you can just fork this repo and manually change any instances of {{ app_name }} to the name of your app. This variable exists in the following files:
+
+*   environments.py
+*   deploy/common_settings.py
+*   deploy/settings.py
+
+# {{ app_name }}
+
 ## Requirements
 This project requires the following:
 
