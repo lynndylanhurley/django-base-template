@@ -17,15 +17,19 @@ This project assumes that you want to use the following:
 *   [fabric](http://docs.fabfile.org/en/1.4.0/index.html) (deployment)
 
 ## Project Initialization
-With Django 1.4, you can use the new project template feature.
+With Django 1.4, you can use the new project template feature. From the console:
 `django-admin.py --template=https://github.com/lynndylanhurley/django-base-template/tarball/master --extension=py,mkd app_name`
 Where `app_name` is the name of your app.
 
 Otherwise you can just fork this repo and manually change any instances of {{ app_name }} to the name of your app. This variable exists in the following files:
 
+*   README.mkd
 *   environments.py
 *   deploy/common_settings.py
 *   deploy/settings.py
+
+#### Remove everything above this line.
+---
 
 # {{ app_name }}
 
