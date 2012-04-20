@@ -2,6 +2,7 @@ from fabric.api import env, settings, run
 from contextlib import contextmanager as _contextmanager
 from time import gmtime, strftime
 from fabric.api import *
+from fabutils.vagrant import get_vagrant_params
 
 
 @_contextmanager
@@ -19,19 +20,16 @@ def common():
 	env.release = strftime('%Y%m%d%H%M%S', gmtime())
 
 
-def get_vagrant_param(key):
-	"""Parse vagrant's ssh-config for given key's value"""
-	result = local('vagrant ssh-config | grep %s' % key, capture=True)
-	return result.split()[1]
-
-
 def dev():
+	vp = get_vagrant_params()
+
 	with common():
-		env.user         = get_vagrant_param('User')
-		env.domain       = 'localhost'
-		env.hosts        = ['%s:%s' % (get_vagrant_param('HostName'), get_vagrant_param('Port'))]
-		env.key_filename = get_vagrant_param('IdentityFile')
-		env.debug        = True
+		env.user                = vp.get('user')
+		env.domain              = 'localhost'
+		env.hosts               = ['%s:%s' % (vp.get('host'), vp.get('port'))]
+		env.key_filename        = vp.get('identity_file')
+		env.debug               = True
+		env.disable_knows_hosts = True
 
 
 # TODO: You edit this
