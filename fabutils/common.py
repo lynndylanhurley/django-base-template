@@ -67,7 +67,7 @@ def upload_current():
 	"""Upload most recent changes into new release directory."""
 	print(white("Creating new release on production"))
 
-	with cd( "%s" % env.project_root ):
+	with cd( env.project_root ):
 		run("mkdir -p releases/%s" % env.release)
 
 		if exists("current"):
