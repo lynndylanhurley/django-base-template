@@ -111,7 +111,7 @@ def upload_settings():
 
 
 def link_current():
-	with current_project():
+	with cd(env.project_root):
 		if exists("current"):
 			run ('unlink current')
 
