@@ -9,8 +9,8 @@ from fabutils.vagrant import get_vagrant_params
 def common():
 	env.debug = False
 	yield
-	env.project_name = '{{ app_name|slugify }}'
-	env.project_title = '{{ app_name }}'
+	env.project_name = '{{ project_name|slugify }}'
+	env.project_title = '{{ project_name }}'
 	env.db_name = env.project_name
 	env.project_root = '/home/%s/sites/%s' % (env.user, env.project_name)
 	env.python_path = "/home/%s/.virtualenvs/%s" % (env.user, env.project_name)

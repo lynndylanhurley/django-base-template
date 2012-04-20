@@ -156,4 +156,4 @@ STATICFILES_DIRS = (
 	PROJECT_ROOT / 'assets',
 )
 
-GRAPPELLI_ADMIN_TITLE = '{{ app_name }}'
+GRAPPELLI_ADMIN_TITLE = '{{ project_name }}'
