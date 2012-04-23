@@ -51,6 +51,7 @@ if [ $USER == %s ]; then
 fi
 	""" % env.user)
 
+	append("~/.bash_profile",  'export LDFLAGS="-Xlinker --no-as-needed"')
 	run("mkvirtualenv --clear --no-site-packages --distribute %s" % env.project_name)
 
 
