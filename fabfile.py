@@ -25,6 +25,7 @@ def deploy():
 	fabutils.archive_current()
 	fabutils.upload_current()
 	configure()
+	fabutils.set_permissions()
 	fabutils.migrate()
 	#rebuild_index()
 	fabutils.collect_static()

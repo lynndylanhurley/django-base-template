@@ -110,6 +110,11 @@ def upload_settings():
 	sudo("ln -s /etc/nginx/sites-available/%s /etc/nginx/sites-enabled/%s" % (env.project_name, env.project_name))
 
 
+def set_permissions():
+	#make sure manage.py is executable
+	with current_project():
+		run('chmod +x manage.py')
+
 
 def link_current():
 	with cd(env.project_root):
