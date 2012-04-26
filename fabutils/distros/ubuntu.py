@@ -14,7 +14,7 @@ def install_distro_deps():
 	sudo("apt-get install python-software-properties")
 	sudo("add-apt-repository ppa:nginx/stable")
 	sudo("apt-get update")
-	sudo("apt-get install git nginx libjpeg libpq-dev postgresql vim curl memcached libmemcache-dev curl build-essential libbz2-dev libsqlite3-dev zlib1g-dev libxml2-dev libxslt1-dev gdb libgdbm-dev libgdb-dev libxml2 libssl-dev tk-dev libgdbm-dev libexpat1-dev libncursesw5-dev psmisc python-dev python-setuptools")
+	sudo("apt-get install git nginx libjpeg8-dev libpq-dev postgresql vim curl memcached libmemcache-dev curl build-essential libbz2-dev libsqlite3-dev zlib1g-dev libxml2-dev libxslt1-dev gdb libgdbm-dev libgdb-dev libxml2 libssl-dev tk-dev libgdbm-dev libexpat1-dev libncursesw5-dev psmisc python-dev python-setuptools")
 
 
 def init_nginx():
