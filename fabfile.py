@@ -64,3 +64,15 @@ def restart_server():
 	"""Restart all processes necessary to the site."""
 	stop_server()
 	start_server()
+
+
+def run_dev_server():
+	"""Run local dev server at localhost:8000"""
+	with cd('$VAGRANT_ROOT'):
+		run('chmod +x manage.py')
+		run('workon %s && ./manage.py runserver_plus 0.0.0.0:8000' % env.project_name)
+
+
+def sync_db(from_env, to_env):
+	"""Sync DB + uploads folder from one env to another env"""
+	postgres.sync_psql_db(from_env, to_env)
