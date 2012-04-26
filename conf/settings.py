@@ -23,4 +23,4 @@ DEBUG = %(debug)s
 TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
-MEDIA_ROOT = path(__file__).abspath().dirname().dirname().dirname() / 'uploads'
+MEDIA_ROOT = path(__file__).abspath().dirname().dirname() / 'uploads'
