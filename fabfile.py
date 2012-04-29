@@ -76,3 +76,7 @@ def run_dev_server():
 def sync_db(from_env, to_env):
 	"""Sync DB + uploads folder from one env to another env"""
 	postgres.sync_psql_db(from_env, to_env)
+
+
+def migrate_app(app_name, initial=False):
+	fabutils.migrate_app(app_name, initial)

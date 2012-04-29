@@ -19,6 +19,13 @@ def current_project():
 		with cd("releases/%s" % env.release):
 			yield
 
+
+@_contextmanager
+def vagrant_env():
+	with cd("$VAGRANT_ROOT"):
+		with prefix('workon %s' % env.project_name):
+			yield
+
 def prepare_server():
 	# for my sanity
 	append("~/.bash_profile", "alias l=ls")
@@ -149,3 +156,11 @@ def cleanup():
 	"""Just to be sure."""
 	with current_project():
 		run('rm -rf *.pyc')
+
+
+def migrate_app(app_name, initial):
+	"""Run migration on app_name using South"""
+	with vagrant_env():
+		flag = ("auto, initial")[initial]
+		run('./manage.py schemamigration --%s %s' % (flag, app_name))
+		run('./manage.py migrate %s' % app_name)
