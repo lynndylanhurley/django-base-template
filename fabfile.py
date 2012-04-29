@@ -78,5 +78,5 @@ def sync_db(from_env, to_env):
 	postgres.sync_psql_db(from_env, to_env)
 
 
-def migrate_app(app_name, initial=False):
-	fabutils.migrate_app(app_name, initial)
+def migrate_app(app_name, initial=""):
+	fabutils.migrate_app(app_name, bool(initial))
