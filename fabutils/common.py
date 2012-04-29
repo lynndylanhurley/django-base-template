@@ -161,6 +161,6 @@ def cleanup():
 def migrate_app(app_name, initial):
 	"""Run migration on app_name using South"""
 	with vagrant_env():
-		flag = ("auto, initial")[initial]
+		flag = ("auto", "initial")[initial]
 		run('./manage.py schemamigration --%s %s' % (flag, app_name))
 		run('./manage.py migrate %s' % app_name)
