@@ -8,6 +8,7 @@ from environments import *
 from pprint import pprint
 
 import fabutils
+from fabutils import fetch
 from fabutils.db import postgres
 from fabutils.distros import ubuntu
 
@@ -80,3 +81,19 @@ def sync_db(from_env, to_env):
 
 def migrate_app(app_name, initial=""):
 	fabutils.migrate_app(app_name, bool(initial))
+
+
+def fetch_static_files():
+	"""Save 20 minutes by automating the gathering of the boilerplate files"""
+
+	FETCH_FILES = [
+		("https://github.com/brandonaaron/livequery/raw/master/jquery.livequery.js", "js/libs/jquery.livequery.js" ),
+		("http://documentcloud.github.com/backbone/backbone.js", "js/libs/backbone.js"),
+		("http://documentcloud.github.com/underscore/underscore.js", "js/libs/underscore.js"),
+		("http://mbostock.github.com/d3/d3.js", "js/libs/d3.js"),
+	]
+
+	fetch.fetch_boilerplate()
+	fetch.fetch_bootstrap()
+
+	map(lambda f: fetch.fetch_file(f), FETCH_FILES)

@@ -7,7 +7,7 @@ South
 django-grappelli
 fabric
 django-compressor
-django
+django<1.4
 pillow
 psycopg2
 sorl-thumbnail
@@ -15,6 +15,8 @@ django-debug-toolbar
 ipython
 uWSGI
 Werkzeug
-python-memcached
+pylibmc
+django-pylibmc-sasl
 django-flatblocks
 django-autoslug
+django-annoying

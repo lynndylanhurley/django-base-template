@@ -43,6 +43,7 @@ This project requires the following:
 ## Included Apps
 
 *   [django-extensions](http://packages.python.org/django-extensions/) (with [Werkzeug](http://werkzeug.pocoo.org/))
+*   [django-annoying](https://bitbucket.org/offline/django-annoying/wiki/Home)
 *   [ipython](http://ipython.org/)
 *   [path.py](https://github.com/dottedmag/path.py)
 *   [South](http://south.aeracode.org/)
