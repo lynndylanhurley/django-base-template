@@ -36,7 +36,7 @@ Otherwise you can just fork this repo and manually change any instances of {{ pr
 ## Requirements
 This project requires the following:
 
-1. An [Ubuntu 10.04](http://www.ubuntu.com/) server
+1. An [Ubuntu 11.10](http://www.ubuntu.com/) server
 2. [Vagrant](http://vagrantup.com/)
 3. [pip](http://pypi.python.org/pypi/pip)
 
@@ -78,7 +78,7 @@ Get the full list of commands by running `vagrant -h`
 ### Local Development Server
 To access django's local dev server, you have two options - you can spend several hours setting up your MacBook (and helping everyone else on the project get set up), or you can use the environment that we've already built from inside the Vagrant VM.
 
-If you choose the latter option, follow these instructions:
+If you choose the latter option, follow you can use run `fab dev run_dev_server`, which is a shortcut for:
 
     vagrant ssh
     cd $VAGRANT_ROOT
@@ -92,6 +92,8 @@ This project uses fabric for deployment + provisioning. Several commands are alr
 
 *   `fab xxx bootstrap`: Install dependencies, deploy initial app to xxx.
 *   `fab xxx deploy`: Deploy latest git commit to xxx server.
+*   `fab xxx run_dev_server`: Run the development server on port 8000.
+*   `fab xxx sync_db:xxx,yyy`: Copy the database from environment xxx to environment yyy
 *   `fab xxx rollback`: Roll back to previous deploy on xxx.
 
 ### Note:
